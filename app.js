@@ -15,6 +15,8 @@ var fs = require('fs');
 var app = express();
 var web3 = new Web3(new Web3.providers.HttpProvider("http://106.15.62.222:8545"));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 var api = web3.version.api;
 var contractAddress = "0x046A6FF757C8EdAA91Dd886Df8B60C217d99f11b";
@@ -141,7 +143,12 @@ app.get('/contractAPI/accountInfo',function(req,res){
     {"name":"ethAcc","value":ethAcc}
     
     ]);
-})
+});
+
+app.post('/contractAPI/aaa', function(req, res){
+    console.log(req.body);
+    let a = req.body.a;
+});
 
 
 /*
