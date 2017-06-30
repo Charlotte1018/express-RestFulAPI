@@ -47,17 +47,16 @@ app.get('/currentProvider',function(req,res){
     res.send( [{"currentProvider":currentProvider}])
 })
 
-app.get('/getBalance/:address',function(req,res){
+app.get('/gethApi/getBalance/:address',function(req,res){
 	let address = req.params.address
     var balance = web3.eth.getBalance(address);
-    res.send(balance)
+    res.send([{"name":"balance","value":balance}]);
 })
 
-//测试专用
-app.get('/testContract',function(req,res){
-    var p1Rate = myContractInst.p1Rate.call();
-    console.log("p1Rate is: ",p1Rate);
-    res.send(p1Rate);
+app.get('/gethApi/getTransctionCount/:address',function(req,res){
+    let address = req.params.address;
+    var txCount = web3.eth.getTransactionCount(address);
+    res.send([{"name":"txCount","value":txCount}]);
 })
 
 
