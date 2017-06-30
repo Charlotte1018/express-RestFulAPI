@@ -113,26 +113,36 @@ app.get('/contractAPI/blockInfo',function(req,res){
     {"name":"fundingStartBlock","value":fundingStartBlock},
     {"name":"fundingEndBlock","value":fundingEndBlock},
     {"name":"fundingP2Block","value":fundingP2Block},
-    {"name":"fundingP3Block","value":fundingP3Block}
-    
-    
+    {"name":"fundingP3Block","value":fundingP3Block}    
     ]);
 })
 
 app.get('/contractAPI/accountInfo',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
-    res.send("todo accountInfo");
+    var vhPreIcoAmount = web3.fromWei(myContractInst.vhPreIcoAmount.call());
+    var vhIcoAmount = web3.fromWei(myContractInst.vhIcoAmount.call());
+    var vhAllocatedAmount = web3.fromWei(myContractInst.vhAllocatedAmount.call());
+    var vhICOCap = web3.fromWei(myContractInst.vhICOCap.call());
+
+    var preICO_VenheAcc = myContractInst.preICO_VenheAcc.call();
+    var ico_VenheAcc = myContractInst.ico_VenheAcc.call();
+    var allocated_venheAcc = myContractInst.allocated_venheAcc.call();
+    var ethAcc = myContractInst.ethAcc.call();
+
+
+    res.send([{"name":"vhPreIcoAmount","value":vhPreIcoAmount},
+    {"name":"vhIcoAmount","value":vhIcoAmount},
+    {"name":"vhAllocatedAmount","value":vhAllocatedAmount},
+    {"name":"vhICOCap","value":vhICOCap},
+
+    {"name":"preICO_VenheAcc","value":preICO_VenheAcc},
+    {"name":"ico_VenheAcc","value":ico_VenheAcc},
+    {"name":"allocated_venheAcc","value":allocated_venheAcc},
+    {"name":"ethAcc","value":ethAcc}
+    
+    ]);
 })
-
-
-
-
-
-
-
-
-
-
 
 
 /*
