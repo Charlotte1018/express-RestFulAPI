@@ -13,7 +13,7 @@ var fs = require('fs');
 
 
 var app = express();
-var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var web3 = new Web3(new Web3.providers.HttpProvider("http://106.15.62.222:8545"));
 
 
 var api = web3.version.api;
@@ -53,7 +53,19 @@ app.get('/getBalance',function(req,res){
 
 //测试专用
 app.get('/testContract',function(req,res){
-    res.send("testContract");
+
+    var abi = result.abi;
+    var address = contractAddress;
+
+    var myContract = web3.eth.contract(abi);
+    var myContractInst = myContract.at([address]);
+
+    console.log(myContractInst);
+
+
+    
+
+    res.send("testContract222");
 })
 
 
