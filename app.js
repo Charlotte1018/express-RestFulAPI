@@ -66,8 +66,10 @@ app.get('/testContract',function(req,res){
     var myContract = web3.eth.contract(abi);
     var myContractInst = myContract.at([address]);
 
-    // console.log(myContractInst);    
-    res.send("hahaha");
+    // console.log(myContractInst);
+    console.log(myContractInst.p1Rate);
+    res.send("hahaha")
+    
 })
 
 
