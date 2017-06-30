@@ -13,7 +13,7 @@ var fs = require('fs');
 
 
 var app = express();
-var web3 = new Web3(new Web3.providers.HttpProvider("http:/localhost:8545"));
+var web3 = new Web3(new Web3.providers.HttpProvider("http:/／localhost:8545"));
 
 
 var api = web3.version.api;
