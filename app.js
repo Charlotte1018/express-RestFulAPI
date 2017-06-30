@@ -35,6 +35,27 @@ app.get('/host', function (req, res) {
 app.get('/geth', function (req, res) {
     res.send(api);
 })
+
+app.get('/stevenkcolin',function(req,res){
+    res.send("hello world! stevenkcolin");
+})
+
+// start icoStatus api
+app.get('/icoStatus',function(req,res){
+    var isFinalized = false;
+    var isPreICO = false;
+    var isHalted = false;
+    res.send([{ "isFinalized": isFinalized },{ "isPreICO": isPreICO },{ "isHalted": isHalted }
+    ])
+})
+
+
+
+
+
+
+
+
 /*
 端口在http://localhost:3000
 */
