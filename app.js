@@ -45,9 +45,15 @@ app.get('/currentProvider',function(req,res){
     res.send( [{"currentProvider":currentProvider}])
 })
 
-app.get('/getBalance',function(req,res){
-    var acc = "0x573f7b10e143889128EE57433B051101Ee87cF88";
-    var balance = web3.eth.getBalance(acc);
+// app.get('/getBalance',function(req,res){
+//     var acc = "0x573f7b10e143889128EE57433B051101Ee87cF88";
+//     var balance = web3.eth.getBalance(acc);
+//     res.send(balance)
+// })
+
+app.get('/getBalance/:address',function(req,res){
+	let address = req.params.address
+    var balance = web3.eth.getBalance(address);
     res.send(balance)
 })
 
@@ -60,12 +66,8 @@ app.get('/testContract',function(req,res){
     var myContract = web3.eth.contract(abi);
     var myContractInst = myContract.at([address]);
 
-    console.log(myContractInst);
-
-
-    
-
-    res.send("testContract222");
+    // console.log(myContractInst);    
+    res.send("hahaha");
 })
 
 
