@@ -42,6 +42,7 @@ app.get('/stevenkcolin',function(req,res){
 
 // start icoStatus api
 app.get('/icoStatus',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
     var isFinalized = false;
     var isPreICO = false;
     var isHalted = false;
