@@ -63,10 +63,10 @@ app.get('/testContract',function(req,res){
 // start icoStatus api
 app.get('/icoStatus',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
-    var isFinalized = false;
-    var isPreICO = false;
-    var isHalted = false;
-    res.send([{ "isFinalized": isFinalized },{ "isPreICO": isPreICO },{ "isHalted": isHalted }
+    var isFinalized = true;
+    var isPreICO = true;
+    var isHalted = true;
+    res.send([{ "name":"isFinalized","value": isFinalized },{ "name":"isPreICO","value": isPreICO },{ "name":"isHalted","value": isHalted }
     ])
 })
 
