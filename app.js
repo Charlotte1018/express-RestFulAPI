@@ -76,8 +76,28 @@ app.get('/contractAPI/icoStatus',function(req,res){
 
 
 app.get('/contractAPI/tokenInfo',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
-    res.send("todo tokenInfo");
+    var name = myContractInst.name.call();
+    var symbol = myContractInst.symbol.call();
+    var currentBalance = web3.eth.getBalance(contractAddress);
+    
+    var p0Rate = myContractInst.p0Rate.call();
+    var p1Rate = myContractInst.p1Rate.call();
+    var p2Rate = myContractInst.p2Rate.call();
+    var p3Rate = myContractInst.p3Rate.call();
+    var currRate = myContractInst.currRate.call();
+
+    res.send([{"name":"p0Rate","value":p0Rate},
+    {"name":"p1Rate","value":p1Rate},
+    {"name":"p2Rate","value":p2Rate},
+    {"name":"p3Rate","value":p3Rate},
+    {"name":"currRate","value":currRate},
+
+    {"name":"name","value":name},
+    {"name":"symbol","value":symbol},
+    {"name":"currentBalance","value":currentBalance}
+    ]);
 })
 
 app.get('/contractAPI/blockInfo',function(req,res){
