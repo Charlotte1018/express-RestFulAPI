@@ -13,7 +13,7 @@ var fs = require('fs');
 
 
 var app = express();
-var web3 = new Web3(new Web3.providers.HttpProvider("http:/localhost:8545"));
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 
 var api = web3.version.api;
@@ -40,6 +40,26 @@ app.get('/stevenkcolin',function(req,res){
     res.send("hello world! stevenkcolin");
 })
 
+app.get('/currentProvider',function(req,res){
+    var currentProvider = web3.currentProvider
+    res.send( [{"currentProvider":currentProvider}])
+})
+
+app.get('/getBalance',function(req,res){
+    var acc = "0x573f7b10e143889128EE57433B051101Ee87cF88";
+    var balance = web3.eth.getBalance(acc);
+    res.send(balance)
+})
+
+//测试专用
+app.get('/testContract',function(req,res){
+    res.send("testContract");
+})
+
+
+
+
+
 // start icoStatus api
 app.get('/icoStatus',function(req,res){
     var isFinalized = false;
@@ -48,6 +68,8 @@ app.get('/icoStatus',function(req,res){
     res.send([{ "isFinalized": isFinalized },{ "isPreICO": isPreICO },{ "isHalted": isHalted }
     ])
 })
+
+
 
 
 
