@@ -81,7 +81,7 @@ app.get('/contractAPI/tokenInfo',function(req,res){
     var name = myContractInst.name.call();
     var symbol = myContractInst.symbol.call();
     var currentBalance = web3.eth.getBalance(contractAddress);
-    
+
     var p0Rate = myContractInst.p0Rate.call();
     var p1Rate = myContractInst.p1Rate.call();
     var p2Rate = myContractInst.p2Rate.call();
@@ -101,8 +101,22 @@ app.get('/contractAPI/tokenInfo',function(req,res){
 })
 
 app.get('/contractAPI/blockInfo',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    
+    var currentBlockNumber = web3.eth.blockNumber;
+    var fundingStartBlock = myContractInst.fundingStartBlock.call();
+    var fundingEndBlock = myContractInst.fundingEndBlock.call();
+    var fundingP2Block = myContractInst.fundingP2Block.call();
+    var fundingP3Block = myContractInst.fundingP3Block.call();
 
-    res.send("todo blockInfo");
+    res.send([{"name":"currentBlockNumber","value":currentBlockNumber},
+    {"name":"fundingStartBlock","value":fundingStartBlock},
+    {"name":"fundingEndBlock","value":fundingEndBlock},
+    {"name":"fundingP2Block","value":fundingP2Block},
+    {"name":"fundingP3Block","value":fundingP3Block}
+    
+    
+    ]);
 })
 
 app.get('/contractAPI/accountInfo',function(req,res){
