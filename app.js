@@ -65,7 +65,7 @@ app.get('/testContract',function(req,res){
 
 
 // start icoStatus api
-app.get('/icoStatus',function(req,res){
+app.get('/contractAPI/icoStatus',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
     var isFinalized = myContractInst.isFinalized.call();
     var isPreICO = myContractInst.isPreICO.call();
@@ -73,6 +73,24 @@ app.get('/icoStatus',function(req,res){
     res.send([{ "name":"isFinalized","value": isFinalized },{ "name":"isPreICO","value": isPreICO },{ "name":"isHalted","value": isHalted }
     ])
 })
+
+
+app.get('/contractAPI/tokenInfo',function(req,res){
+
+    res.send("todo tokenInfo");
+})
+
+app.get('/contractAPI/blockInfo',function(req,res){
+
+    res.send("todo blockInfo");
+})
+
+app.get('/contractAPI/accountInfo',function(req,res){
+
+    res.send("todo accountInfo");
+})
+
+
 
 
 
