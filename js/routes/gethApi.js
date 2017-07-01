@@ -4,6 +4,7 @@ var request = require('request');
 
 var constants = require('../constants/constants');
 var web3Wrapper = require('../Web3Wrapper');
+var keythereum = require("keythereum");
 
 router.get('/getBalance/:address',function(req,res){
     let address = req.params.address;
@@ -67,10 +68,54 @@ router.get('/getBlock/:blockNumber',function(req,res){
 
 router.get('/getTransaction/:txHash',function(req,res){
     let txHash = req.params.txHash;
-    let url = 'https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=' + txHash + '&apikey=' + constants.etherScanApiToken;
-    request(url, function(error, res1) {
-        res.send(res1);
-    });
+    let url = 'https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=' + txHash + '&apikey=' + etherScanApiToken;
+    request(url, function (error, res1) {
+        var obj = JSON.parse(res1.body);
+        res.send(obj);
+    })
 });
+
+router.get('/keyexport/:password', function (req, res) {
+    let password = req.params.password;
+
+    var params = { keyBytes: 32, ivBytes: 16 };
+    var dk = keythereum.create(params);
+
+    var kdf = "pbkdf2";
+    var options = {
+        kdf: "pbkdf2",
+        cipher: "aes-128-ctr",
+        kdfparams: {
+            c: 262144,
+            dklen: 32,
+            prf: "hmac-sha256"
+        }
+    };
+
+    var keyObject = keythereum.dump(password, dk.privateKey, dk.salt, dk.iv, options);
+    res.send(keyObject);
+})
+
+
+
+
+//for test used;
+router.get('/gethApi/testForKey', function (req, res) {
+    var password = "wheethereum";
+    var kdf = "pbkdf2";
+
+    var options = {
+        kdf: "pbkdf2",
+        cipher: "aes-128-ctr",
+        kdfparams: {
+            c: 262144,
+            dklen: 32,
+            prf: "hmac-sha256"
+        }
+    };
+
+    var keyObject = keythereum.dump(password, dk.privateKey, dk.salt, dk.iv, options);
+    res.send(keyObject);
+})
 
 module.exports = router;
