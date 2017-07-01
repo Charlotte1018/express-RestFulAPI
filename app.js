@@ -13,7 +13,8 @@ var fs = require('fs');
 
 
 var app = express();
-var web3 = new Web3(new Web3.providers.HttpProvider("http://106.15.62.222:8545"));
+// var web3 = new Web3(new Web3.providers.HttpProvider("http://106.15.62.222:8545"));
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -60,6 +61,46 @@ app.get('/gethApi/getTransctionCount/:address',function(req,res){
     var txCount = web3.eth.getTransactionCount(address);
     res.send([{"name":"txCount","value":txCount}]);
 })
+
+app.get('/gethApi/peerCount',function(req,res){
+    var peerCount = web3.net.peerCount;
+    res.send([
+        {"name":"peerCount","value":peerCount}
+    ]);
+})
+
+app.get('/gethApi/testLog',function(req,res){
+    console.log("testLog okay");
+    res.send("testLog okay");
+})
+
+app.get('/gethApi/defaultBlock',function(req,res){
+    let defaultBlock = web3.eth.defaultBlock;
+    res.send([
+        {"name":"defaultBlock","value":defaultBlock}
+    ])
+})
+
+app.get('/gethApi/blockNumber',function(req,res){
+    let blockNumber = web3.eth.blockNumber;
+    res.send([
+        {"name":"blockNumber","value":blockNumber}
+    ])
+})
+
+app.get('/gethApi/gasPrice',function(req,res){
+    let gasPrice = web3.eth.gasPrice;
+    res.send([
+        {"name":"gasPrice","value":gasPrice}
+    ]);
+})
+
+
+
+
+
+
+
 
 
 
