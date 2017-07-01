@@ -145,9 +145,24 @@ app.get('/contractAPI/accountInfo',function(req,res){
     ]);
 });
 
+
+//test function for post method
+//test json is
+// {
+// 	"gasLimit": 300000,
+// 	"gasValue" : 20,
+// 	"amount" : 14000000000
+// }
 app.post('/contractAPI/aaa', function(req, res){
-    console.log(req.body);
-    let a = req.body.a;
+    // console.log(req.body);
+    let gasLimit = req.body.gasLimit;
+    let gasValue = req.body.gasValue;
+    let amount = req.body.amount;
+    console.log("gasLimit is: ",gasLimit);
+    console.log("gasValue is: ",gasValue);
+    console.log("amount is: ",amount);
+
+    res.send("okay");
 });
 
 
