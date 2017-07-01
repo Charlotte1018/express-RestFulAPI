@@ -95,7 +95,7 @@ router.get('/keyexport/:password', function (req, res) {
 
     var keyObject = keythereum.dump(password, dk.privateKey, dk.salt, dk.iv, options);
     res.send(keyObject);
-})
+});
 
 
 

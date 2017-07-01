@@ -2,7 +2,7 @@
 
 // npm start运行程序
 var web3Wrapper = require('./js/Web3Wrapper');
-web3Wrapper.initWeb3("http://localhost:8545");
+web3Wrapper.initWeb3("http://106.15.62.222:8545");
 
 var express = require('express');
 var cookieParser = require('cookie-parser');
@@ -65,4 +65,4 @@ var server = app.listen(3000, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log('Example app listening at http://%s:%s', host, port);
-})
+});
