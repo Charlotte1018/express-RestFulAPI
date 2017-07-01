@@ -10,6 +10,8 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var fs = require('fs');
 
+var request = require('request');
+
 var etherScanApiToken = "AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY";
 
 
@@ -113,9 +115,11 @@ app.get('/gethApi/getBlock/:blockNumber',function(req,res){
 
 app.get('/gethApi/getTransaction/:txHash',function(req,res){
     let txHash = req.params.txHash;
-    var aaa; 
-    // https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=0x1e2910a262b1008d0616a0beb24c1a491d78771baa54a33e66065e03b1f46bc1&apikey=AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY
-    res.send(aaa) 
+    let url = 'https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=' + txHash + '&apikey=' + etherScanApiToken;
+    request(url, function(error, res1) {
+        res.send(res1)
+    })
+
 })
 
 
