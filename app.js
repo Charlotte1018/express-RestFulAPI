@@ -11,7 +11,7 @@ var path = require('path');
 var fs = require('fs');
 
 var etherScanApiToken = "AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY";
-
+var keythereum = require("keythereum");
 
 var app = express();
 // var web3 = new Web3(new Web3.providers.HttpProvider("http://106.15.62.222:8545"));
@@ -119,7 +119,16 @@ app.get('/gethApi/getTransaction/:txHash',function(req,res){
 })
 
 
+app.get('/gethApi/testForKey',function(req,res){
+    
 
+    var params = { keyBytes: 32, ivBytes: 16 };
+    
+    keythereum.create(params,function(dk){
+        var aaa = dk;
+        res.send(aaa);
+    })
+})
 
 
 
