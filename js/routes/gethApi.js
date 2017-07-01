@@ -100,23 +100,4 @@ router.get('/keyexport/:password', function (req, res) {
 
 
 
-//for test used;
-router.get('/gethApi/testForKey', function (req, res) {
-    var password = "wheethereum";
-    var kdf = "pbkdf2";
-
-    var options = {
-        kdf: "pbkdf2",
-        cipher: "aes-128-ctr",
-        kdfparams: {
-            c: 262144,
-            dklen: 32,
-            prf: "hmac-sha256"
-        }
-    };
-
-    var keyObject = keythereum.dump(password, dk.privateKey, dk.salt, dk.iv, options);
-    res.send(keyObject);
-})
-
 module.exports = router;
