@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var fs = require('fs');
 
+var etherScanApiToken = "AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY";
 
 
 var app = express();
@@ -103,7 +104,19 @@ app.get('/gethApi/getCode/:address',function(req,res){
     ])
 })
 
+app.get('/gethApi/getBlock/:blockNumber',function(req,res){
+    let blockNumber = req.params.blockNumber;
+    var blockInfo = web3.eth.getBlock(blockNumber);
+    res.send(blockInfo);
+})
 
+
+app.get('/gethApi/getTransaction/:txHash',function(req,res){
+    let txHash = req.params.txHash;
+    var aaa; 
+    // https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=0x1e2910a262b1008d0616a0beb24c1a491d78771baa54a33e66065e03b1f46bc1&apikey=AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY
+    res.send(aaa) 
+})
 
 
 
