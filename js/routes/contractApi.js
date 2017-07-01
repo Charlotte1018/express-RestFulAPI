@@ -93,16 +93,4 @@ router.get('/accountInfo',function(req,res){
     ]);
 });
 
-router.post('/aaa', function(req, res){
-    // console.log(req.body);
-    let gasLimit = req.body.gasLimit;
-    let gasValue = req.body.gasValue;
-    let amount = req.body.amount;
-    console.log("gasLimit is: ",gasLimit);
-    console.log("gasValue is: ",gasValue);
-    console.log("amount is: ",amount);
-
-    res.send("okay");
-});
-
 module.exports = router;

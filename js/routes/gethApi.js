@@ -68,6 +68,7 @@ router.get('/getBlock/:blockNumber',function(req,res){
 
 router.get('/getTransaction/:txHash',function(req,res){
     let txHash = req.params.txHash;
+    let etherScanApiToken = constants.etherScanApiToken;
     let url = 'https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=' + txHash + '&apikey=' + etherScanApiToken;
     request(url, function (error, res1) {
         var obj = JSON.parse(res1.body);
