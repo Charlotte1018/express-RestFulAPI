@@ -95,6 +95,15 @@ app.get('/gethApi/gasPrice',function(req,res){
     ]);
 })
 
+app.get('/gethApi/getCode/:address',function(req,res){
+    let address = req.params.address;
+    var code = web3.eth.getCode(address);
+    res.send([
+        {"name":"code","value":code}
+    ])
+})
+
+
 
 
 
