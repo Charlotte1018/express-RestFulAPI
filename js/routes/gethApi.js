@@ -11,10 +11,11 @@ var HookedWeb3Provider = require("hooked-web3-provider");
 router.get('/getBalance/:address', function (req, res) {
     let address = req.params.address;
     var balance = web3Wrapper.web3.eth.getBalance(address);
+    var balanceInEth = web3Wrapper.web3.fromWei(balance);
     // res.send([{ "name": "balance", "value": balance }]);
 
     res.send({
-        "data": {"name":"balance","value":balance},
+        "data": {"name":"balance","value":balance,"valueInEth":balanceInEth},
         "message": "success",
         "status":0,
         "errors": {
