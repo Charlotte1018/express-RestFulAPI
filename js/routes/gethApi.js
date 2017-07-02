@@ -108,10 +108,21 @@ router.get('/ethlightwallet/test001', function (req, res) {
     var global_keystore;
     lightwallet.keystore.deriveKeyFromPassword(password,function(err,pwDerivedKey){
         global_keystore = new lightwallet.keystore(randomSeed,pwDerivedKey);
-        console.log("global_keystore is:",global_keystore);
+        global_keystore.generateNewAddress(pwDerivedKey,1);
+
+        var addresses = global_keystore.getAddresses();
+        console.log("addresses is: ",addresses);
+        console.log("address0 is: ",addresses[0]);
+
+        test001();
         res.send(global_keystore);
     })
 });
+
+function test001() {
+    console.log("test001");
+};
+
 
 
 
