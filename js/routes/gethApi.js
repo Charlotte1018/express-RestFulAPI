@@ -25,6 +25,29 @@ router.get('/getBalance/:address', function (req, res) {
     });
 });
 
+router.get('/ethPrice',function(req,res){
+
+    let url = 'https://www.okcoin.cn/api/v1/ticker.do?symbol=eth_cny';
+    request(url, function (error, res1) {
+        let body = JSON.parse(res1.body);
+
+        var date = body.date;
+        console.log(date);
+        var buy = body.ticker.buy;
+        console.log(buy);
+
+        res.send({
+            "data": {"name":"ethPrice","value":buy,"date":date},
+            "message": "success",
+            "status": 0,
+            "errors": {
+                "message": "",
+                "code": 0
+            }
+        });
+    })
+});
+
 router.get('/getTransctionCount/:address', function (req, res) {
     let address = req.params.address;
     var txCount = web3Wrapper.web3.eth.getTransactionCount(address);
