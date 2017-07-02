@@ -25,8 +25,18 @@ router.get('/getBalance/:address', function (req, res) {
     });
 });
 
-router.get('/ethPrice',function(req,res){
+router.post('/getTokens/:address', function(req,res){
+    let contractAddress = req.body.contractAddress;
+    let address = req.params.address;
+    console.log("address is: ",address);
+    console.log("contractAddress is: ", contractAddress);
 
+    
+
+    res.send("okay");
+})
+
+router.get('/ethPrice',function(req,res){
     let url = 'https://www.okcoin.cn/api/v1/ticker.do?symbol=eth_cny';
     request(url, function (error, res1) {
         let body = JSON.parse(res1.body);

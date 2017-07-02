@@ -42,6 +42,23 @@ router.post('/createKeyStore',function(req,res){
     });    
 });
 
+router.post('/sendFakeTx',function(req,res){
+    let from = req.body.from;
+    let to = req.body.to;
+    let value = req.body.value;
+    let gasPrice = req.body.gasPrice;
+    let gas = req.body.gas;
+
+    res.send({
+        "message": "success",
+        "status":0,
+        "errors": {
+            "message":"",
+            "code":0
+        }
+    });
+})
+
 router.post('/sendTx',function(req,res){
     let from = req.body.from;
     let to = req.body.to;
