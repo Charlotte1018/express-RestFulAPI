@@ -25,6 +25,22 @@ router.get('/getBalance/:address', function (req, res) {
     });
 });
 
+router.get('/getAddressList',function(req,res){
+
+    var contract1 = "0xD3C34Fb8E2Ff19062664e7E4aa4C3c1978d4c92a";
+    var contract2 = "0x646878de1e4DA59c4feC0D848415Ad412c30cA3C";
+    var contract3 = "0x046A6FF757C8EdAA91Dd886Df8B60C217d99f11b";
+    res.send({
+        "data": [contract1,contract2,contract3],
+        "message": "success",
+        "status":0,
+        "errors": {
+            "message":"",
+            "code":0
+        }
+    })
+})
+
 router.post('/getTokens/:address', function(req,res){
     let contractAddress = req.body.contractAddress;
     let address = req.params.address;
