@@ -6,6 +6,7 @@ var lightwallet = require('eth-lightwallet');
 var constants = require('../constants/constants');
 var web3Wrapper = require('../Web3Wrapper');
 var keythereum = require("keythereum");
+var HookedWeb3Provider = require("hooked-web3-provider");
 
 router.get('/getBalance/:address',function(req,res){
     let address = req.params.address;
@@ -114,13 +115,42 @@ router.get('/ethlightwallet/test001', function (req, res) {
         console.log("addresses is: ",addresses);
         console.log("address0 is: ",addresses[0]);
 
-        test001();
+        test001(global_keystore);
         res.send(global_keystore);
     })
 });
 
-function test001() {
-    console.log("test001");
+router.get('/ethlightwallet/test002',function(req,res){
+    console.log("test002");
+    var password = "myPassword001";
+
+    lightwallet.keystore.createVault({password:password},function(err,ks){
+        console.log("ks is: ",ks);
+        console.log("************************************************************************************************************************")
+        ks.keyFromPassword(password, function(err,pwDerivedKey){
+            if (err) throw err;
+            console.log("pwDerivedKey is: ",pwDerivedKey);
+            console.log("************************************************************************************************************************")
+
+            ks.generateNewAddress(pwDerivedKey,1);
+            var address = ks.getAddresses();
+            console.log("address is: ",address);
+            test001(ks);
+            console.log(web3Wrapper.web3.eth.accounts);
+            res.send("test002 okay");
+        })
+    })    
+})
+
+function test001(keystore) {
+    // console.log(keystore);
+    // console.log("test001");
+
+    var web3Provider = new HookedWeb3Provider({
+        host: "http://localhost:8545",
+        transaction_signer: keystore
+    });
+    web3Wrapper.web3.setProvider(web3Provider);
 };
 
 
