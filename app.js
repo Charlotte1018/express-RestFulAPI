@@ -11,10 +11,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var path = require('path');
 var fs = require('fs');
+var orm = require("orm");
 
 var gethApi = require('./js/routes/gethApi');
 var contractApi = require('./js/routes/contractApi');
 var ethLightWallet = require('./js/routes/ethLightWallet');
+var userApi = require('./js/routes/userApi');
+var sqlDBConfig = require("./js/config/sqlDB.json");
+var sqlDBUtils = require('./js/sqlDBUtils');
 
 var request = require('request');
 
@@ -33,6 +37,18 @@ var result = JSON.parse(fs.readFileSync(path.join(__dirname, 'VHToken.json')));
 var abi = result.abi;
 
 
+//db connection by using orm
+app.use(orm.express(sqlDBConfig, {
+    define: function (db, models, next) {
+        var listModels = require("./js/models/sqlModel");
+        listModels(db, models);
+        sqlDBUtils.setModels(models);
+        console.log('Mysql connected to ' + sqlDBConfig.protocol + "://" + sqlDBConfig.host + "/" + sqlDBConfig.database);
+        next();
+    }
+}));
+
+
 app.get('/abi', function (req, res, next) {
     res.send(result.abi);
 });
@@ -48,6 +64,8 @@ app.use('/gethAPI', gethApi);
 app.use('/ethLightWallet',ethLightWallet);
 
 app.use('/contractAPI', contractApi);
+
+app.use('/userAPI', userApi);
 
 app.get('/geth', function (req, res) {
     res.send(api);

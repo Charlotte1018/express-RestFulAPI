@@ -17,6 +17,7 @@
     "keythereum" : "^1.0.1",
     "request": "^2.81.0",
     "eth-lightwallet" : "^2.5.6",
-    "hooked-web3-provider" : "^1.0.0"
+    "hooked-web3-provider" : "^1.0.0",
+    "orm": "3.2.3"
   }
 }
