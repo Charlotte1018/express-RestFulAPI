@@ -14,6 +14,7 @@ var fs = require('fs');
 
 var gethApi = require('./js/routes/gethApi');
 var contractApi = require('./js/routes/contractApi');
+var ethLightWallet = require('./js/routes/ethLightWallet');
 
 var request = require('request');
 
@@ -44,6 +45,7 @@ app.get('/host', function (req, res) {
 
 
 app.use('/gethAPI', gethApi);
+app.use('/ethLightWallet',ethLightWallet);
 
 app.use('/contractAPI', contractApi);
 
