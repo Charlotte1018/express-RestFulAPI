@@ -153,6 +153,35 @@ function test001(keystore) {
     web3Wrapper.web3.setProvider(web3Provider);
 };
 
+router.get('/ethlightwallet/testSendTx',function(req,res){
+    var web3 = web3Wrapper.web3;
+    console.log("testSendTx");
+    var acc0 = "0xf416c1d6d127b81428660c4de66a486ba18f947d";
+    var acc1 = "0x39c64224db74b0bcb10774a28ff03a3481482552";
+    var amount = web3Wrapper.web3.toWei(0.001);
+
+    console.log(acc0,acc1,amount);
+    var balance = web3Wrapper.web3.eth.getBalance(acc0);
+    console.log(web3Wrapper.web3.fromWei(balance));
+    
+
+    web3.eth.sendTransaction({
+        from: acc1,
+        to: acc0,
+        value: amount
+    }, function(err,txHash){
+        console.log('error: ' + err);
+        console.log('txhash: ' + txHash);
+        res.send(txHash);
+    })
+    // res.send("testSendTx okay");
+});
+
+router.get('/ethlightwallet/testSendTx02',function(req,res){
+    console.log("testSendTx02");
+    res.send("testSendTx02 okay");
+})
+
 
 
 
