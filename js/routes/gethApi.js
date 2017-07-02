@@ -11,7 +11,17 @@ var HookedWeb3Provider = require("hooked-web3-provider");
 router.get('/getBalance/:address', function (req, res) {
     let address = req.params.address;
     var balance = web3Wrapper.web3.eth.getBalance(address);
-    res.send([{ "name": "balance", "value": balance }]);
+    // res.send([{ "name": "balance", "value": balance }]);
+
+    res.send({
+        "data": {"name":"balance","value":balance},
+        "message": "success",
+        "status":0,
+        "errors": {
+            "message":"",
+            "code":0
+        }
+    });
 });
 
 router.get('/getTransctionCount/:address', function (req, res) {
