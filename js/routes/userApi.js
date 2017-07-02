@@ -2,7 +2,6 @@
  * Created by hepen on 7/2/2017.
  */
 var express = require("express");
-var models = require("../models/sqlModel");
 var router = express.Router();
 var sqlDBUtils = require('../../js/sqlDBUtils');
 

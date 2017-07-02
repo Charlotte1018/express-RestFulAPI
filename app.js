@@ -40,7 +40,7 @@ var abi = result.abi;
 //db connection by using orm
 app.use(orm.express(sqlDBConfig, {
     define: function (db, models, next) {
-        var listModels = require("./js/models/sqlModel");
+        var listModels = require("./js/model/sqlModels");
         listModels(db, models);
         sqlDBUtils.setModels(models);
         console.log('Mysql connected to ' + sqlDBConfig.protocol + "://" + sqlDBConfig.host + "/" + sqlDBConfig.database);
