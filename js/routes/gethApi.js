@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var request = require('request');
+var lightwallet = require('eth-lightwallet');
 
 var constants = require('../constants/constants');
 var web3Wrapper = require('../Web3Wrapper');
@@ -96,6 +97,25 @@ router.get('/keyexport/:password', function (req, res) {
     var keyObject = keythereum.dump(password, dk.privateKey, dk.salt, dk.iv, options);
     res.send(keyObject);
 });
+
+router.get('/ethlightwallet/test001', function (req, res) {
+    //generate random seed
+    var extraEntropy = "steve";
+    var randomSeed = lightwallet.keystore.generateRandomSeed(extraEntropy);
+    console.log("randomSeed is: ",randomSeed);
+
+    var password = "myPassword001";
+    var global_keystore;
+    lightwallet.keystore.deriveKeyFromPassword(password,function(err,pwDerivedKey){
+        global_keystore = new lightwallet.keystore(randomSeed,pwDerivedKey);
+        console.log("global_keystore is:",global_keystore);
+        res.send(global_keystore);
+    })
+});
+
+
+
+
 
 
 

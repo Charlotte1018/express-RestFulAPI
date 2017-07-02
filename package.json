@@ -15,6 +15,7 @@
     "serve-favicon": "~2.4.2",
     "web3": "^0.19.1",
     "keythereum" : "^1.0.1",
-    "request": "2.81.0"
+    "request": "2.81.0",
+    "eth-lightwallet" : "2.5.6"
   }
 }
