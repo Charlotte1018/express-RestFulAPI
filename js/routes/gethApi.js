@@ -31,9 +31,30 @@ router.post('/getTokens/:address', function(req,res){
     console.log("address is: ",address);
     console.log("contractAddress is: ", contractAddress);
 
-    
+    var fs = require('fs');
+    var path = require('path');
+    var result = JSON.parse(fs.readFileSync(path.join(__dirname, '../../VHToken.json')));
+    var abi = result.abi;
+    var myContract = web3Wrapper.web3.eth.contract(abi);
+    var myContractInst = myContract.at(contractAddress);
 
-    res.send("okay");
+    // console.log(myContractInst);
+    myContractInst.balanceOf(address,function(err,value){
+        var tokenName = myContractInst.name.call();
+        if (err) throw err;
+        var tokens = value.valueOf();
+        var tokensFromWei = web3Wrapper.web3.fromWei(tokens);
+        console.log(tokensFromWei);
+        res.send({
+            "data": {"name":tokenName,"value":tokensFromWei},
+            "message": "success",
+            "status": 0,
+            "errors": {
+                "message": "",
+                "code":0
+            }
+        });
+    });
 })
 
 router.get('/ethPrice',function(req,res){
