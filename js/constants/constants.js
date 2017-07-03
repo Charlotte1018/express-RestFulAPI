@@ -3,5 +3,6 @@
  */
 module.exports={
     etherScanApiToken: "AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY",
-    contractAddress: "0x046A6FF757C8EdAA91Dd886Df8B60C217d99f11b"
+    contractAddress: "0x046A6FF757C8EdAA91Dd886Df8B60C217d99f11b",
+    contractACTAddress: ""
 };

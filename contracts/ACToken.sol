@@ -101,14 +101,14 @@ contract ACToken is StandardToken, SafeMath {
     uint256 public constant actFund = 49 * (10**factorial) * 10**decimals; //49%锁定代币地址，共计49M即4900万代币
     uint256 public constant tokenCreationCap =  100 * (10**factorial) * 10**decimals; /// 最大募集金额 51M,即5100万代币
 
-    uint256 public constant p0Rate = 12500;
-    uint256 public constant p1Rate = 11500;
-    uint256 public constant p2Rate = 10800;
-    uint256 public constant p3Rate = 10000;
+    uint256 public constant p0Rate = 125000;
+    uint256 public constant p1Rate = 115000;
+    uint256 public constant p2Rate = 108000;
+    uint256 public constant p3Rate = 100000;
 
-    uint256 public constant p0Period = 200; //P0时间长度1小时，P0比例12500，+25%
-    uint256 public constant p1Period = 4948; //P1时间长度大约1天，P1比例11500，+15%
-    uint256 public constant p2Period = 49480; //P2时间长度大约9天，P2比例10800，+8%
+    uint256 public constant p0Period = 2000; //P0时间长度1小时，P0比例12500，+25%
+    uint256 public constant p1Period = 10000; //P1时间长度大约1天，P1比例11500，+15%
+    uint256 public constant p2Period = 50000; //P2时间长度大约9天，P2比例10800，+8%
 
     function tokenRate() constant returns(uint) {
         if (block.number>=fundingStartBlock && block.number<fundingStartBlock+p0Period) return p0Rate;

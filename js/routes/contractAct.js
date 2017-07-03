@@ -6,11 +6,10 @@ var web3Wrapper = require('../Web3Wrapper');
 
 var fs = require('fs');
 var path = require('path');
-var result = JSON.parse(fs.readFileSync(path.join(__dirname, '../../build/contracts/VHToken.json')));
+var result = JSON.parse(fs.readFileSync(path.join(__dirname, '../../build/contracts/ACToken.json')));
 var abi = result.abi;
 var myContract = web3Wrapper.web3.eth.contract(abi);
-var myContractInst = myContract.at(constants.contractAddress);
-
+var myContractInst = myContract.at(constants.contractACTAddress);
 
 var api = web3Wrapper.web3.version.api;
 
