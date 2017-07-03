@@ -9,68 +9,84 @@ var path = require('path');
 var result = JSON.parse(fs.readFileSync(path.join(__dirname, '../../build/contracts/ACToken.json')));
 var abi = result.abi;
 var myContract = web3Wrapper.web3.eth.contract(abi);
-var myContractInst = myContract.at(constants.contractACTAddress);
+var myContractAddress = constants.contractACTAddress;//获取当前的地址；
+
+
+var myContractInst = myContract.at(myContractAddress);
 
 var api = web3Wrapper.web3.version.api;
 
 
 router.get('/test001',function(req,res){
     console.log("hello world!");
+    console.log(myContractAddress);
+    //console.log(myContractInst);
     res.send("test001");
 })
 
 
-// router.get('/icoStatus',function(req,res){
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     var isFinalized = myContractInst.isFinalized.call();
-//     var isPreICO = myContractInst.isPreICO.call();
-//     var isHalted = myContractInst.isHalted.call();
-//     res.send([{ "name":"isFinalized","value": isFinalized },{ "name":"isPreICO","value": isPreICO },{ "name":"isHalted","value": isHalted }
-//     ])
-// });
+router.get('/icoStatus',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    var isFinalized = myContractInst.isFinalized.call();
+    var isHalted = myContractInst.isHalted.call();
+    res.send([
+        { "name":"isFinalized","value": isFinalized },
+        { "name":"isHalted","value": isHalted }
+    ])
+});
+
+router.get('/tokenInfo',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    var name = myContractInst.name.call();
+    var symbol = myContractInst.symbol.call();
+    var currentBalanceInWei = web3Wrapper.web3.eth.getBalance(myContractAddress);
+    var currentBalance = web3Wrapper.web3.fromWei(currentBalanceInWei);
 
 
-// router.get('/tokenInfo',function(req,res){
-//     res.setHeader("Access-Control-Allow-Origin", "*");
+    var p0Rate = myContractInst.p0Rate.call();
+    var p1Rate = myContractInst.p1Rate.call();
+    var p2Rate = myContractInst.p2Rate.call();
+    var p3Rate = myContractInst.p3Rate.call();
+    var currRate = myContractInst.tokenRate.call();
 
-//     var name = myContractInst.name.call();
-//     var symbol = myContractInst.symbol.call();
-//     var currentBalance = web3Wrapper.web3.eth.getBalance(constants.contractAddress);
+    res.send([{"name":"p0Rate","value":p0Rate},
+        {"name":"p1Rate","value":p1Rate},
+        {"name":"p2Rate","value":p2Rate},
+        {"name":"p3Rate","value":p3Rate},
+        {"name":"currRate","value":currRate},
 
-//     var p0Rate = myContractInst.p0Rate.call();
-//     var p1Rate = myContractInst.p1Rate.call();
-//     var p2Rate = myContractInst.p2Rate.call();
-//     var p3Rate = myContractInst.p3Rate.call();
-//     var currRate = myContractInst.currRate.call();
+        {"name":"name","value":name},
+        {"name":"symbol","value":symbol},
+        {"name":"currentBalance","value":currentBalance}
+    ]);
+});
 
-//     res.send([{"name":"p0Rate","value":p0Rate},
-//         {"name":"p1Rate","value":p1Rate},
-//         {"name":"p2Rate","value":p2Rate},
-//         {"name":"p3Rate","value":p3Rate},
-//         {"name":"currRate","value":currRate},
+router.get('/blockInfo',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
-//         {"name":"name","value":name},
-//         {"name":"symbol","value":symbol},
-//         {"name":"currentBalance","value":currentBalance}
-//     ]);
-// });
+    var currentBlockNumber = web3Wrapper.web3.eth.blockNumber;
+    var fundingStartBlock = parseInt(myContractInst.fundingStartBlock.call());
+    var fundingEndBlock = parseInt(myContractInst.fundingEndBlock.call());
 
-// router.get('/blockInfo',function(req,res){
-//     res.setHeader("Access-Control-Allow-Origin", "*");
+    var p0Period = parseInt(myContractInst.p0Period.call());
+    var p1Period = parseInt(myContractInst.p1Period.call());
+    var p2Period = parseInt(myContractInst.p2Period.call());
 
-//     var currentBlockNumber = web3Wrapper.web3.eth.blockNumber;
-//     var fundingStartBlock = myContractInst.fundingStartBlock.call();
-//     var fundingEndBlock = myContractInst.fundingEndBlock.call();
-//     var fundingP2Block = myContractInst.fundingP2Block.call();
-//     var fundingP3Block = myContractInst.fundingP3Block.call();
+    var fundingP0EndBlock = fundingStartBlock + p0Period;
+    var fundingP1EndBlock = fundingStartBlock + p1Period;
+    var fundingP2EndBlock = fundingStartBlock + p2Period;
+    
 
-//     res.send([{"name":"currentBlockNumber","value":currentBlockNumber},
-//         {"name":"fundingStartBlock","value":fundingStartBlock},
-//         {"name":"fundingEndBlock","value":fundingEndBlock},
-//         {"name":"fundingP2Block","value":fundingP2Block},
-//         {"name":"fundingP3Block","value":fundingP3Block}
-//     ]);
-// });
+
+    res.send([{"name":"currentBlockNumber","value":currentBlockNumber},
+        {"name":"fundingStartBlock","value":fundingStartBlock},
+        {"name":"fundingP0EndBlock","value":fundingP0EndBlock},
+        {"name":"fundingP1EndBlock","value":fundingP1EndBlock},
+        {"name":"fundingP2EndBlock","value":fundingP2EndBlock},
+        {"name":"fundingEndBlock","value":fundingEndBlock}
+    ]);
+});
 
 // router.get('/accountInfo',function(req,res){
 //     res.setHeader("Access-Control-Allow-Origin", "*");
