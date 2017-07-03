@@ -17,14 +17,6 @@ var myContractInst = myContract.at(myContractAddress);
 var api = web3Wrapper.web3.version.api;
 
 
-router.get('/test001',function(req,res){
-    console.log("hello world!");
-    console.log(myContractAddress);
-    //console.log(myContractInst);
-    res.send("test001");
-})
-
-
 router.get('/icoStatus',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
     var isFinalized = myContractInst.isFinalized.call();
@@ -88,31 +80,30 @@ router.get('/blockInfo',function(req,res){
     ]);
 });
 
-// router.get('/accountInfo',function(req,res){
-//     res.setHeader("Access-Control-Allow-Origin", "*");
+router.get('/accountInfo',function(req,res){
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
-//     var vhPreIcoAmount = web3Wrapper.web3.fromWei(myContractInst.vhPreIcoAmount.call());
-//     var vhIcoAmount = web3Wrapper.web3.fromWei(myContractInst.vhIcoAmount.call());
-//     var vhAllocatedAmount = web3Wrapper.web3.fromWei(myContractInst.vhAllocatedAmount.call());
-//     var vhICOCap = web3Wrapper.web3.fromWei(myContractInst.vhICOCap.call());
-
-//     var preICO_VenheAcc = myContractInst.preICO_VenheAcc.call();
-//     var ico_VenheAcc = myContractInst.ico_VenheAcc.call();
-//     var allocated_venheAcc = myContractInst.allocated_venheAcc.call();
-//     var ethAcc = myContractInst.ethAcc.call();
+    var actFund = web3Wrapper.web3.fromWei(myContractInst.actFund.call());
+    var tokenCreationCap = web3Wrapper.web3.fromWei(myContractInst.tokenCreationCap.call());
+    var totalSupply = web3Wrapper.web3.fromWei(myContractInst.totalSupply.call());
 
 
-//     res.send([{"name":"vhPreIcoAmount","value":vhPreIcoAmount},
-//         {"name":"vhIcoAmount","value":vhIcoAmount},
-//         {"name":"vhAllocatedAmount","value":vhAllocatedAmount},
-//         {"name":"vhICOCap","value":vhICOCap},
+    var ethFundDeposit = myContractInst.ethFundDeposit.call();
+    var actFundDeposit = myContractInst.actFundDeposit.call();
 
-//         {"name":"preICO_VenheAcc","value":preICO_VenheAcc},
-//         {"name":"ico_VenheAcc","value":ico_VenheAcc},
-//         {"name":"allocated_venheAcc","value":allocated_venheAcc},
-//         {"name":"ethAcc","value":ethAcc}
+    res.send([{"name":"actFund","value":actFund},
+        {"name":"tokenCreationCap","value":tokenCreationCap},
+        {"name":"totalSupply","value":totalSupply},
 
-//     ]);
-// });
+        {"name":"ethFundDeposit","value":ethFundDeposit},
+        {"name":"actFundDeposit","value":actFundDeposit}
+    ]);
+});
+
+router.get('/otherInfo',function(req,res){
+    res.send([{
+        
+    }])
+})
 
 module.exports = router;
