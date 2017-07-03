@@ -3,7 +3,7 @@
   "protocol": "mysql",
   "host": "127.0.0.1",
   "username": "root",
-  "password": "root",
+  "password": "hero36hero36",
   "query": {
     "pool": true,
     "debug": true
