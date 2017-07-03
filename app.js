@@ -14,7 +14,7 @@ var fs = require('fs');
 var orm = require("orm");
 
 var gethApi = require('./js/routes/gethApi');
-var contractApi = require('./js/routes/contractApi');   //VHToken contract
+var contractVht = require('./js/routes/contractVht');   //VHToken contract
 var contractAct = require('./js/routes/contractAct');  //ACToken Contract
 
 var ethLightWallet = require('./js/routes/ethLightWallet');
@@ -65,7 +65,7 @@ app.get('/host', function (req, res) {
 app.use('/gethAPI', gethApi);
 app.use('/ethLightWallet',ethLightWallet);
 
-app.use('/contractAPI', contractApi); //VHToken contract route;
+app.use('/contractVHT',contractVht); //VHToken contract route;
 app.use('/contractACT',contractAct); //ACToken contract route;
 
 app.use('/userAPI', userApi);
