@@ -21,36 +21,35 @@ router.get('/icoStatus',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
     var isFinalized = myContractInst.isFinalized.call();
     var isHalted = myContractInst.isHalted.call();
+    var currentBalanceInWei = web3Wrapper.web3.eth.getBalance(myContractAddress);
+    var currentBalance = web3Wrapper.web3.fromWei(currentBalanceInWei);
+    var name = myContractInst.name.call();
+    var symbol = myContractInst.symbol.call();
+
     res.send([
+        {"name":"name","value":name},
+        {"name":"symbol","value":symbol},
+        {"name":"currentBalance","value":currentBalance},
         { "name":"isFinalized","value": isFinalized },
         { "name":"isHalted","value": isHalted }
+
     ])
 });
 
 router.get('/tokenInfo',function(req,res){
     res.setHeader("Access-Control-Allow-Origin", "*");
-
-    var name = myContractInst.name.call();
-    var symbol = myContractInst.symbol.call();
-    var currentBalanceInWei = web3Wrapper.web3.eth.getBalance(myContractAddress);
-    var currentBalance = web3Wrapper.web3.fromWei(currentBalanceInWei);
-
-
     var p0Rate = myContractInst.p0Rate.call();
     var p1Rate = myContractInst.p1Rate.call();
     var p2Rate = myContractInst.p2Rate.call();
     var p3Rate = myContractInst.p3Rate.call();
     var currRate = myContractInst.tokenRate.call();
 
-    res.send([{"name":"p0Rate","value":p0Rate},
+    res.send([
+        {"name":"currRate","value":currRate},
+        {"name":"p0Rate","value":p0Rate},
         {"name":"p1Rate","value":p1Rate},
         {"name":"p2Rate","value":p2Rate},
-        {"name":"p3Rate","value":p3Rate},
-        {"name":"currRate","value":currRate},
-
-        {"name":"name","value":name},
-        {"name":"symbol","value":symbol},
-        {"name":"currentBalance","value":currentBalance}
+        {"name":"p3Rate","value":p3Rate}
     ]);
 });
 
