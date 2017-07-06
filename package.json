@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor node app.js"
+    "start": "node app.js"
   },
   "devDependencies": {
     "body-parser": "~1.17.1",

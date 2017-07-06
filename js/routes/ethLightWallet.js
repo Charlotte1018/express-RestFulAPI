@@ -22,10 +22,14 @@ router.post('/createKeyStore',function(req,res){
         ks.keyFromPassword(password, function (err, pwDerivedKey) { 
             if (err) throw err;
             //generate eth.address;
-            ks.generateNewAddress(pwDerivedKey, 1);
+            ks.generateNewAddress(pwDerivedKey, 3);
             var addresses = ks.getAddresses();
-            address0 = addresses[0];
-            console.log("address0 is: ", address0);
+            console.log("address0 is: ", addresses);
+
+            ks.passwordProvider = function (callback) {
+            var pw = password
+                callback(null, pw);
+            };
 
             var web3Provider = new HookedWeb3Provider({
                 host: "http://localhost:8545",
@@ -35,7 +39,7 @@ router.post('/createKeyStore',function(req,res){
 
             res.send([
                 {"status":"0"},
-                {"address":address0},
+                {"address":addresses},
                 {"ks":ks}
             ]);
         });
@@ -71,7 +75,7 @@ router.post('/sendTx',function(req,res){
     console.log(value);
     console.log(gasPrice);
     console.log(gas);
-    res.send("okay");
+
 
     web3Wrapper.web3.eth.sendTransaction({
                 from: from,
@@ -80,14 +84,9 @@ router.post('/sendTx',function(req,res){
                 gasPrice: gasPrice,
                 gas: gas
             }, function (err, txHash) {
-                if (err) throw err;
                 console.log('error: ' + err);
                 console.log('txhash: ' + txHash);
-                res.send([
-                    {"status":"0",
-                    "error":"0",
-                    "txHash":txHash}
-                ]);
+                res.send("okay");
             });
 });
 
