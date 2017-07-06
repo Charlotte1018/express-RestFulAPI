@@ -10,7 +10,10 @@ router.post("/create", function(req, res) {
     var userModel = sqlDBUtils.getModels().user;
     userModel.create(user, (err) => {
         if (err) throw err;
-        res.send(user);
+        res.send({
+            "status":0,
+            "result": user
+        });
     });
 });
 
@@ -26,7 +29,10 @@ router.post("/update/:id", function(req, res) {
         }
         result = Object.assign(result[0], newUser);
         result.save(function(err) {
-            res.send(result);
+            res.send({
+                "status":"0",
+                "result":result
+            });
         });
     });
 });
