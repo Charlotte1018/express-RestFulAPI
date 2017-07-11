@@ -85,13 +85,18 @@ router.post('/sendTx',function(req,res){
             });
 });
 
-router.get('/test001',function(req,res){
-    console.log("aaaaa");
-    console.log("bbbbb");
-    var tWallet = global.Wallet.generate(false);
-    console.log(tWallet);
+router.post('/createV3',function(req,res){
+    let password = req.body.password;
 
-    res.send("test001 okay");
+    var tWallet = global.Wallet.generate(false);
+    var wStr = tWallet.toV3(password,{
+        kdf:globalFuncs.kdf,
+        n:globalFuncs.scrypt.n
+    });
+    var encStr = JSON.stringify(wStr);
+    var address = tWallet.getAddressString();
+
+    res.send({"encStr":encStr,"wStr":wStr,"address":address});
 });
 
 

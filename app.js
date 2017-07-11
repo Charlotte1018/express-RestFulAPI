@@ -49,6 +49,14 @@ global.browser               = browser;
 var Wallet                   = require('./js/wallet/myetherwallet');
 global.Wallet                = Wallet;
 
+var Token                    = require('./js/wallet/tokenlib');
+global.Token                 = Token;
+var globalFuncs              = require('./js/wallet/globalFuncs');
+global.globalFuncs           = globalFuncs;
+
+
+
+
 
 // 读取合约abi
 var result = JSON.parse(fs.readFileSync(path.join(__dirname, 'VHToken.json')));
