@@ -102,7 +102,7 @@ router.post('/createV3',function(req,res){
     
 
     res.send({"strjson":strjson,"address":address});
-})
+});
 
 router.post('/importWallet',function(req,res){
     let password = req.body.password;
@@ -113,6 +113,16 @@ router.post('/importWallet',function(req,res){
 
     res.send({"wallet":tWallet});
 })
+
+router.post('/importWalletFile',function(req,res){
+    let body = req.body;    
+    console.log(body);
+
+    let strjson = JSON.stringify(body);
+    console.log(strjson);
+    res.send({"strjson":strjson});
+})
+
 
 
 
