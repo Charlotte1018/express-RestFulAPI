@@ -2,8 +2,8 @@
 
 // npm start运行程序
 var web3Wrapper = require('./js/Web3Wrapper');
-// web3Wrapper.initWeb3("http://106.15.62.222:8545");
-web3Wrapper.initWeb3("http://localhost:8545");
+web3Wrapper.initWeb3("http://106.15.62.222:8545");
+// web3Wrapper.initWeb3("http://localhost:8545");
 
 
 var express = require('express');
@@ -31,6 +31,23 @@ var api = web3Wrapper.web3.version.api;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+
+
+// Wallet JS
+var ethUtil                  = require('ethereumjs-util');
+ethUtil.crypto               = require('crypto');
+ethUtil.Tx                   = require('ethereumjs-tx');
+ethUtil.scrypt               = require('scryptsy');
+ethUtil.uuid                 = require('uuid');
+ethUtil.WAValidator          = require('wallet-address-validator');
+global.ethUtil               = ethUtil;
+var format                   = require('string-format');
+global.format                = format;
+var browser                  = require('detect-browser');
+global.browser               = browser;
+var Wallet                   = require('./js/wallet/myetherwallet');
+global.Wallet                = Wallet;
 
 
 // 读取合约abi

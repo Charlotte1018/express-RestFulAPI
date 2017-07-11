@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "supervisor node app.js"
   },
   "devDependencies": {
     "body-parser": "~1.17.1",
@@ -18,6 +18,10 @@
     "request": "^2.81.0",
     "eth-lightwallet" : "^2.5.6",
     "hooked-web3-provider" : "^1.0.0",
-    "orm": "3.2.3"
+    "orm": "3.2.3",
+    "scryptsy":"^2.0.0",
+    "wallet-address-validator":"^0.1.0",
+    "string-format":"^0.5.0",
+    "detect-browser":"^1.7.0"
   }
 }

@@ -6,11 +6,6 @@ var lightwallet = require('eth-lightwallet');
 var web3Wrapper = require('../Web3Wrapper');
 var HookedWeb3Provider = require("hooked-web3-provider");
 
-router.get('/test001',function(req,res){
-    console.log("test001");
-    res.send("test001 okay");
-});
-
 router.post('/createKeyStore',function(req,res){
     let password = req.body.password;
     console.log("password is:",password);
@@ -90,6 +85,14 @@ router.post('/sendTx',function(req,res){
             });
 });
 
+router.get('/test001',function(req,res){
+    console.log("aaaaa");
+    console.log("bbbbb");
+    var tWallet = global.Wallet.generate(false);
+    console.log(tWallet);
+
+    res.send("test001 okay");
+});
 
 
 
