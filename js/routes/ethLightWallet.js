@@ -139,6 +139,87 @@ router.post('/fromV3',function(req,res){
 });
 
 
+const EthereumTx = require('ethereumjs-tx');
+const privateKey = Buffer.from('8b6b36a33897afca6111c52d8075b4e5038065c4d12a610fc43de2e87cf3f53f', 'hex')
+
+const txParams = {
+  nonce: '0x00',
+  gasPrice: '0x09184e72a000', 
+  gasLimit: '0x2710',
+  from: '0x7af5407febc9b8a511adf40499ba4662833e6dc1',
+  to: '0x0a3264926aa54756a92d84622599fc8fbd407320', 
+  value: '10000000000000000'
+}
+
+router.post('/test002',function(req,res){
+    console.log("hello world test002");
+    console.log(privateKey);
+
+    var tx = new EthereumTx(txParams);
+    tx.sign(privateKey);
+    const serializedTx = tx.serialize();
+    console.log(serializedTx);
+
+    // var balance = web3Wrapper.web3.eth.getBalance("0x7af5407febc9b8a511adf40499ba4662833e6dc1");
+    // console.log(balance);
+
+    web3Wrapper.web3.eth.sendRawTransaction(serializedTx.toString(), function(err, hash) {
+        console.log(err);
+        console.log(hash);
+    });
+
+    res.send("okay")
+});
+
+
+router.post('/test003',function(req,res){
+    console.log("hello test003");
+
+    var from = "0x573f7b10e143889128EE57433B051101Ee87cF88";
+    var to = "0xef3AC99B576909852D8470b219Ef1F0118b05aFc";
+    var value = "100000000000000";
+    var nonce = '100';
+    var gasLimit = 100000;
+    var gasPrice = 20000000000;
+                   
+
+    // web3Wrapper.web3.eth.sendTransaction({
+    //             from: from,
+    //             to: to,
+    //             value: value
+    //         }, function (err, txHash) {
+    //             console.log('error: ' + err);
+    //             console.log('txhash: ' + txHash);
+    //             res.send("okay");
+    //         });
+
+    var Tx = require('ethereumjs-tx');
+    var privateKey = Buffer.from('ec66a2866f4b93f6a02a9e53c7345eb5ba7d15ac4fa7caf0ab4a8f0b6c4e3efa', 'hex');
+    var rawTx = {
+        chainId : 1,
+        nonce: "0x42",
+        from: from,
+        to: to,
+        value: "0x5af3107a4000",
+        gasLimit: "0x5208",
+        gasPrice : "0x04e3b29200"
+    };
+
+    var balance = web3Wrapper.web3.eth.getBalance(from);
+    console.log(balance);
+
+    var tx = new Tx(rawTx);
+    tx.sign(privateKey);
+    var serializedTx = tx.serialize();
+    // rawTx.signedTx = '0x' + eTx.serialize().toString('hex');
+    web3Wrapper.web3.eth.sendRawTransaction('0x'+serializedTx.toString('hex'), function(err, hash){
+        console.log(err);
+        console.log(hash);
+    });
+
+    res.send("okay");
+})
+
 
 
 
