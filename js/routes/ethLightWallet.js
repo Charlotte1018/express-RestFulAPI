@@ -46,7 +46,10 @@ router.post('/sendTx', function (req, res) {
     let value = req.body.value;
     let data = req.body.data;
     let chainId = req.body.chainId;
-    let privateKey = req.body.pKey;
+    let pKey = req.body.pKey;
+
+    let Tx = require('ethereumjs-tx');
+    let privateKey = Buffer.from(pKey, 'hex');
     
 
     console.log("nonce is: ",nonce);
@@ -56,6 +59,7 @@ router.post('/sendTx', function (req, res) {
     console.log("value is: ",value);
     console.log("data is: ",data);
     console.log("chainId is: ",chainId);
+    console.log("pKey is: ",pKey);
     console.log("privateKey is: ",privateKey);
 
     res.send("okay");
