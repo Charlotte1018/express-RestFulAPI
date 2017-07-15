@@ -98,7 +98,7 @@ router.post('/sendTx', function (req, res) {
             let body = JSON.parse(res1.body);
             let hash = body.result;
             // console.log("hash is: ",hash);
-            res.send({ "serializedTx": serializedTx,"hash":hash});
+            res.send({ "serializedTx": serializedTx,"hash":hash,"status":0, "message":"success"});
         });
 
 
