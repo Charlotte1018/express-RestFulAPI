@@ -101,7 +101,7 @@ router.post('/createV3', function (req, res) {
     console.log("json:", json);
 
 
-    res.send({ "strjson": strjson, "address": address });
+    res.send({ "strjson": strjson, "address": address ,"status":0, "message":"success"});
 });
 
 router.post('/importWallet', function (req, res) {
@@ -135,7 +135,7 @@ router.post('/fromV3', function (req, res) {
     var v3Wallet = Wallet.fromV3(strjson, password, true);
     console.log(v3Wallet);
 
-    res.send({ "wallet": v3Wallet });
+    res.send({ "wallet": v3Wallet,"status":0, "message":"success"});
 });
 
 
