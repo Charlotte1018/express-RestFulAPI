@@ -5,6 +5,7 @@ var lightwallet = require('eth-lightwallet');
 
 var web3Wrapper = require('../Web3Wrapper');
 var HookedWeb3Provider = require("hooked-web3-provider");
+var request = require('request');
 
 router.post('/sendFakeTx', function (req, res) {
     let from = req.body.from;
@@ -23,46 +24,92 @@ router.post('/sendFakeTx', function (req, res) {
     });
 })
 
-var rawTx =
-    {
-        "nonce": 94,
-        "gasPrice": "0x04e3b29200",
-        "gasLimit": "0x5208",
-        "to": "0xef3AC99B576909852D8470b219Ef1F0118b05aFc",
-        "value": "0x5af3107a4000",
-        "data": "",
-        "chainId": 1
-    };
+// var rawTx =
+//     {
+//         "nonce": 94,
+//         "gasPrice": "0x04e3b29200",
+//         "gasLimit": "0x5208",
+//         "to": "0xef3AC99B576909852D8470b219Ef1F0118b05aFc",
+//         "value": "0x5af3107a4000",
+//         "data": "",
+//         "chainId": 1
+//     };
 
 
 
 
 
 router.post('/sendTx', function (req, res) {
-    let nonce = req.body.nonce;
-    let gasPrice = req.body.gasPrice;
-    let gasLimit = req.body.gasLimit;
-    let to = req.body.to;
-    let value = req.body.value;
-    let data = req.body.data;
-    let chainId = req.body.chainId;
-    let pKey = req.body.pKey;
 
-    let Tx = require('ethereumjs-tx');
-    let privateKey = Buffer.from(pKey, 'hex');
-    
+    let url = "https://api.etherscan.io/api?module=proxy&action=eth_getTransactionCount&address=0xd8ede3cc3c0b43b90e35891619cb65573c92afd9&tag=latest&apikey=AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY";
 
-    console.log("nonce is: ",nonce);
-    console.log("gasPrice is: ",gasPrice);
-    console.log("gasLimit is: ",gasLimit);
-    console.log("to is: ",to);
-    console.log("value is: ",value);
-    console.log("data is: ",data);
-    console.log("chainId is: ",chainId);
-    console.log("pKey is: ",pKey);
-    console.log("privateKey is: ",privateKey);
+    var nonce;
+    request(url, function (error, res1) {
+        if (error) { res.send(error); return }
+        let body = JSON.parse(res1.body);
+        nonce = parseInt(body.result);
+        console.log("nonce is: ", nonce);
 
-    res.send("okay");
+
+        let gasPrice = req.body.gasPrice;
+        let gasLimit = req.body.gasLimit;
+        let to = req.body.to;
+        let value = req.body.value;
+        let data = req.body.data;
+        let chainId = req.body.chainId;
+        let pKey = req.body.pKey;
+
+        let Tx = require('ethereumjs-tx');
+        let privateKey = Buffer.from(pKey, 'hex');
+
+
+        // console.log("nonce is: ", nonce);
+        // console.log("gasPrice is: ", gasPrice);
+        // console.log("gasLimit is: ", gasLimit);
+        // console.log("to is: ", to);
+        // console.log("value is: ", value);
+        // console.log("data is: ", data);
+        // console.log("chainId is: ", chainId);
+        // console.log("pKey is: ", pKey);
+        // console.log("privateKey is: ", privateKey);
+
+        var rawTx = {
+            "nonce": nonce,
+            "gasPrice": gasPrice,
+            "gasLimit": gasLimit,
+            "to": to,
+            "value": value,
+            "data": data,
+            "chainId": chainId
+        };
+
+        // console.log("rawTx is: ",rawTx);
+
+        var tx = new Tx(rawTx);
+        tx.sign(privateKey);
+        var serializedTx = '0x' + tx.serialize().toString('hex');
+        // console.log("serializedTx is: ", serializedTx);
+
+        let postUrl = "https://api.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex="+serializedTx+"&apikey=AJKFV8KK6H6C5JRMCN4YMM9VW5AX2485JY"
+
+        // console.log(postUrl);
+        // res.send("okay");
+        request.post(postUrl,function(error,res1){
+            let body = JSON.parse(res1.body);
+            let hash = body.result;
+            // console.log("hash is: ",hash);
+            res.send({ "serializedTx": serializedTx,"hash":hash});
+        });
+
+
+
+    });
+
+
+
+
+
+
 });
 
 //已完工，实现了 @2017/07/15
@@ -257,6 +304,7 @@ router.post('/test005', function (req, res) {
                 "data": "",
                 "chainId": 1
             };
+
 
         var tx = new Tx(rawTx);
         tx.sign(privateKey);
