@@ -23,31 +23,42 @@ router.post('/sendFakeTx', function (req, res) {
     });
 })
 
+var rawTx =
+    {
+        "nonce": 94,
+        "gasPrice": "0x04e3b29200",
+        "gasLimit": "0x5208",
+        "to": "0xef3AC99B576909852D8470b219Ef1F0118b05aFc",
+        "value": "0x5af3107a4000",
+        "data": "",
+        "chainId": 1
+    };
+
+
+
+
+
 router.post('/sendTx', function (req, res) {
-    let from = req.body.from;
+    let nonce = req.body.nonce;
+    let gasPrice = req.body.gasPrice;
+    let gasLimit = req.body.gasLimit;
     let to = req.body.to;
     let value = req.body.value;
-    let gasPrice = req.body.gasPrice;
-    let gas = req.body.gas;
+    let data = req.body.data;
+    let chainId = req.body.chainId;
+    let privateKey = req.body.pKey;
+    
 
-    console.log(from);
-    console.log(to);
-    console.log(value);
-    console.log(gasPrice);
-    console.log(gas);
+    console.log("nonce is: ",nonce);
+    console.log("gasPrice is: ",gasPrice);
+    console.log("gasLimit is: ",gasLimit);
+    console.log("to is: ",to);
+    console.log("value is: ",value);
+    console.log("data is: ",data);
+    console.log("chainId is: ",chainId);
+    console.log("privateKey is: ",privateKey);
 
-
-    web3Wrapper.web3.eth.sendTransaction({
-        from: from,
-        to: to,
-        value: value,
-        gasPrice: gasPrice,
-        gas: gas
-    }, function (err, txHash) {
-        console.log('error: ' + err);
-        console.log('txhash: ' + txHash);
-        res.send("okay");
-    });
+    res.send("okay");
 });
 
 //已完工，实现了 @2017/07/15
@@ -91,6 +102,8 @@ router.post('/fromV3', function (req, res) {
     var v3Wallet = Wallet.fromV3(strjson, password, true);
     res.send({ "wallet": v3Wallet,"status":0, "message":"success"});
 });
+
+
 
 
 const EthereumTx = require('ethereumjs-tx');
