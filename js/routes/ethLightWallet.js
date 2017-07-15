@@ -6,41 +6,6 @@ var lightwallet = require('eth-lightwallet');
 var web3Wrapper = require('../Web3Wrapper');
 var HookedWeb3Provider = require("hooked-web3-provider");
 
-router.post('/createKeyStore', function (req, res) {
-    let password = req.body.password;
-    console.log("password is:", password);
-    var address0;
-
-    lightwallet.keystore.createVault({ password: password }, function (err, ks) {
-        if (err) throw err;
-
-        ks.keyFromPassword(password, function (err, pwDerivedKey) {
-            if (err) throw err;
-            //generate eth.address;
-            ks.generateNewAddress(pwDerivedKey, 3);
-            var addresses = ks.getAddresses();
-            console.log("address0 is: ", addresses);
-
-            ks.passwordProvider = function (callback) {
-                var pw = password
-                callback(null, pw);
-            };
-
-            var web3Provider = new HookedWeb3Provider({
-                host: "http://localhost:8545",
-                transaction_signer: ks
-            });
-            web3Wrapper.web3.setProvider(web3Provider);
-
-            res.send([
-                { "status": "0" },
-                { "address": addresses },
-                { "ks": ks }
-            ]);
-        });
-    });
-});
-
 router.post('/sendFakeTx', function (req, res) {
     let from = req.body.from;
     let to = req.body.to;
@@ -85,6 +50,7 @@ router.post('/sendTx', function (req, res) {
     });
 });
 
+//已完工，实现了 @2017/07/15
 router.post('/createV3', function (req, res) {
     let password = req.body.password;
 
@@ -96,45 +62,33 @@ router.post('/createV3', function (req, res) {
     var strjson = JSON.stringify(wStr);
     var address = tWallet.getAddressString();
     var publicKey = tWallet.getPublicKeyString();
-    console.log("publicKey is: ", publicKey);
     var json = tWallet.toJSON();
-    console.log("json:", json);
-
 
     res.send({ "strjson": strjson, "address": address ,"status":0, "message":"success"});
 });
 
+// 已完工 @2017/07/15
 router.post('/importWallet', function (req, res) {
     let password = req.body.password;
     let strjson = req.body.strjson;
 
     var tWallet = Wallet.getWalletFromPrivKeyFile(strjson, password);
-    console.log(tWallet);
-
-    res.send({ "wallet": tWallet });
+    res.send({ "wallet": tWallet ,"status":0, "message":"success"});
 })
 
+// 已完工 @2017/07/15
 router.post('/importWalletFile', function (req, res) {
     let body = req.body;
-    console.log(body);
-
     let strjson = JSON.stringify(body);
-    console.log(strjson);
-    res.send({ "strjson": strjson });
+    res.send({ "strjson": strjson,"status":0, "message":"success"});
 })
 
-
-
-
+//已完工 @2017/07/15
 router.post('/fromV3', function (req, res) {
     let password = req.body.password;
     let strjson = req.body.strjson;
-    console.log("password: ", password);
-    console.log("strjson: ", strjson);
 
     var v3Wallet = Wallet.fromV3(strjson, password, true);
-    console.log(v3Wallet);
-
     res.send({ "wallet": v3Wallet,"status":0, "message":"success"});
 });
 
